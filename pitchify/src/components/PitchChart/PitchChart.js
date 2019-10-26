@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from './Title';
+import Title from '../Dashboard/Title';
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -19,7 +19,7 @@ const data = [
   createData('24:00', undefined),
 ];
 
-export default function Chart() {
+export default function PitchChart() {
   return (
     <React.Fragment>
       <Title>Today</Title>

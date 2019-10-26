@@ -9,20 +9,17 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
+import { mainListItems } from './listItems';
 import Button from "@material-ui/core/Button";
-import Deposits from './Deposits';
 import Orders from './Orders';
 import CarouselCall from './CarouselCall';
+import PitchChart from '../PitchChart/PitchChart';
 
 
 function Copyright() {
@@ -177,12 +174,14 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-               <Chart /> 
+               <PitchChart></PitchChart>
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Button></Button>
+                <div>
+                  <h1>Buttons are here</h1>
+                </div>
               </Paper>
             </Grid>
             <Grid item xs={12}>
