@@ -11,9 +11,14 @@ import LayersIcon from '@material-ui/icons/Layers';
 import SearchIcon from '@material-ui/icons/Search';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+const cssStyle = {
+  'width': "100px",
+  'height':"auto",
+}
+
 export const mainListItems = (
   <div>
-  <img styles={{}} src={require('./Assets/kfk.jpg')} />
+  <img styles={cssStyle} src={require('./Assets/kfk.jpg')} />
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
