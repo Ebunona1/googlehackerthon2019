@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 
 var AudioContextApi = (() => {
   var audioContext;
+
   var createAudioContext = function () {
     var LocalAudioContext = window.AudioContext || window.webkitAudioContext;
     return new LocalAudioContext();
@@ -15,8 +16,7 @@ var AudioContextApi = (() => {
     return audioContext;
   }
   return {
-    getAudioContext: getAudioContext,
-
+    getAudioContext: getAudioContext
   };
 })();
 
@@ -105,48 +105,55 @@ var PitchMeter = (() => {
   };
 })();
 
+var AudioPlayer = (() => {
+  var frequency;
+  var sourceNode;
+  var playNote = () => {
+    var audioAnalyser = AudioContextApi.getAudioContext().createAnalyser();
+    audioAnalyser.fftSize = 2048;
+
+    sourceNode = AudioContextApi.getAudioContext().createOscillator();
+    audioAnalyser.connect( AudioContextApi.getAudioContext().destination );
+    sourceNode.connect( audioAnalyser );
+    sourceNode.frequency.setValueAtTime(frequency,0);
+
+    sourceNode.start(0);
+  };
+  var setFrequency = (selectedFreq) => {
+    frequency = selectedFreq;
+  }
+  var stopPlaying = () => {
+    sourceNode.stop()
+  }
+  var getFrequency = () => {
+    return sourceNode.frequency.value;
+  }
+  return {
+    playNote: playNote,
+    setFrequency: setFrequency,
+    stopPlaying: stopPlaying,
+    getFrequency: getFrequency
+  };
+})();
+
 function App() {
 
-  var analyserAudioNode;
-  var sourceNode;
-  var analyser;
   var playing = false;
-  var sourceAudioNode;
-  
-  var start = function () {
-    if (!playing) {
-      // setting frequency here
 
-      sourceNode = AudioContextApi.getAudioContext().createOscillator();
-      sourceNode.connect( analyser );
-      sourceNode.start(0);
+  var togglePlay = function (frequency) {
+    if (!playing) {
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
+      playing = true;
+    } else if (AudioPlayer.getFrequency() !== frequency) {
+      AudioPlayer.stopPlaying();
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
       playing = true;
     } else {
-      sourceNode.stop(0);
-      sourceNode = null;
+      AudioPlayer.stopPlaying();
       playing = false;
     }
-    console.log("playing");
-  }
-
-  var setFrequency = function (newFreq) {
-    if (sourceNode) {
-      // stores desired freq
-      sourceNode.frequency.setValueAtTime(newFreq,0);
-      console.log("changed freq to...", newFreq);
-    }
-  }
-
-  var togglePlay = function () {
-    analyser.fftSize = 2048;
-    analyser.connect( AudioContextApi.getAudioContext().destination );
-    start();
-  }
-
-  var playAtFrequency = function (frequency) {
-    if (!sourceNode || sourceNode.frequency.value === frequency)
-      togglePlay();
-    setFrequency(frequency);
   }
   
 
@@ -159,15 +166,15 @@ function App() {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={(f) => playAtFrequency(440)}>
+      <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
         Play an A4
       </Button>
 
-      <Button variant="contained" color="primary" onClick={(f) => playAtFrequency(500)}>
+      <Button variant="contained" color="primary" onClick={(f) => togglePlay(600)}>
         Play an E3
       </Button>
 
-      <Button variant="contained" color="primary" onClick={(f) => playAtFrequency(1000)}>
+      <Button variant="contained" color="primary" onClick={(f) => togglePlay(700)}>
         Play a C4
       </Button>
 
