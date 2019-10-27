@@ -20,6 +20,7 @@ import Button from "@material-ui/core/Button";
 import Orders from './Orders';
 import CarouselCall from './CarouselCall';
 import PitchChart from '../PitchChart/PitchChart';
+import Logo from './Assets/kfk.jpg';
 
 
 function Copyright() {
@@ -27,7 +28,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Pitchify.edu.io
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -167,27 +168,20 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <CarouselCall></CarouselCall>
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-               <PitchChart></PitchChart>
+          <Grid container>
+          <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders />
+                <img src={Logo} alt= 'website logo'/>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <div>
-                  <h1>Buttons are here</h1>
-                </div>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
+            <PitchChart ></PitchChart>
+              {/* <CarouselCall></CarouselCall> */}
+            {/* <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders />
               </Paper>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
         <Copyright />

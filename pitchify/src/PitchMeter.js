@@ -1,7 +1,7 @@
 import AudioContextApi from './AudioContextApi';
 import freqTable from './notes';
 var PitchMeter = (() => {
-    const FREQ_MATCHING_THRESHOLD = 5;
+    const FREQ_MATCHING_THRESHOLD = 10;
     var detectPitch = function (analyserAudioNode) {
       var buffer = new Uint8Array(analyserAudioNode.fftSize);
       // See initializations in the AudioContent and AnalyserNode sections of the demo.
@@ -55,10 +55,10 @@ var PitchMeter = (() => {
     var withinPercent = (target, actual, threshold) => {
       var diff = target - actual;
       var percent = (diff/target) * 100;
-      console.log("percent",actual);
+      console.log("Your Frequency",actual);
       return Math.abs(percent) <= threshold;
     }
-    var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onTimeout) => {
+    var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onPitchTooLow, onPitchTooHigh, onTimeout) => {
       var notesTable = freqTable[440];
       let stream = await navigator.mediaDevices.getUserMedia({audio: true}).then((micStream) => {
         var analyserAudioNode = AudioContextApi.getAudioContext().createAnalyser();
@@ -76,6 +76,11 @@ var PitchMeter = (() => {
             if (withinPercent(targetFreq, freq, FREQ_MATCHING_THRESHOLD)) {
               onPitchMatched();
               console.log(findClosestNote(freq, notesTable));
+              console.log(freq);
+            } else if (freq > targetFreq) {
+              onPitchTooHigh();
+            } else {
+              onPitchTooLow();
             }
             
           }
@@ -104,7 +109,7 @@ var PitchMeter = (() => {
       return notes[low];
     }
     return {
-      // maxPitch(targetFreq, maxSamples,onPitchMatched, onTimeout)
+      // maxPitch(targetFreq, maxSamples,onPitchMatched, onPitchTooLow, onPitchTooHigh, onTimeout)
       matchPitch: matchPitch,
       findNotes: findClosestNote
     };
