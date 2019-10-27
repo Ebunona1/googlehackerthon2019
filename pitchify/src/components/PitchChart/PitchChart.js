@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +36,7 @@ export default function PitchChart() {
   }
   var currentNote = PitchMeter.findNotes(generateFrequency(), NotesTable[440])
   //console.log('note:', currentNote.note);
+  const [correctionText, setCorrectionText] = useState(0);
 
   var togglePlay = function (frequency) {
     if (!playing) {
@@ -66,12 +68,12 @@ export default function PitchChart() {
 
   var onTooLow = function () {
     // do something if freq too low
-    console.log("Pitch too low");
+    setCorrectionText("Too low");
   }
 
   var onTooHigh = function () {
     // do something if freq too high
-    console.log("Pitch too high");
+    setCorrectionText("Too high");
   }
 
   var isBackgroundRed = false;
@@ -92,6 +94,7 @@ export default function PitchChart() {
       <Grid item xs={6} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
           <p>{currentNote.note}</p>
+          <p>{correctionText}</p>
         </Paper>
       </Grid>
 
