@@ -93,7 +93,7 @@ export default function PitchChart() {
       </Grid>
       <Grid item xs={6} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <p>{currentNote.note}</p>
+          <p>Note you need to sing: {currentNote.note}</p>
           <p>{correctionText}</p>
         </Paper>
       </Grid>
