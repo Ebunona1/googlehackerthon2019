@@ -50,12 +50,22 @@ export default function PitchChart() {
   }
 
   var record = async function () {
-    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => { console.log("timeout"); return; });
+    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => onTooLow(), () => onTooHigh(), () => { console.log("timeout"); return; });
   }
 
   var onMatched = function () {
     console.log("Matched");
     return { backgroundColor: 'green' };
+  }
+
+  var onTooLow = function () {
+    // do something if freq too low
+    console.log("Pitch too low");
+  }
+
+  var onTooHigh = function () {
+    // do something if freq too high
+    console.log("Pitch too high");
   }
 
   var isBackgroundRed = false;
