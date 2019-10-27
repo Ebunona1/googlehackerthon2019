@@ -33,7 +33,7 @@ export default function Orders() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Pitch perfect</Title>
+      <Title></Title>
       
     </React.Fragment>
   );

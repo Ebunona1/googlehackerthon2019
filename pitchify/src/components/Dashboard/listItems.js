@@ -18,7 +18,7 @@ const cssStyle = {
 
 export const mainListItems = (
   <div>
-  <img styles={cssStyle} src={require('./Assets/kfk.jpg')} />
+  {/* <img styles={cssStyle} src={require('./Assets/kfk.jpg')} />
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -42,6 +42,6 @@ export const mainListItems = (
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Assist" />
-    </ListItem>
+    </ListItem> */}
   </div>
 );

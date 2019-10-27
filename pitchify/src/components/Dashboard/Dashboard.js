@@ -115,6 +115,13 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 240,
   },
+  logo: {
+    width: '80vh',
+    height: '400',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  }
 }));
 
 export default function Dashboard() {
@@ -172,16 +179,10 @@ export default function Dashboard() {
           <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders />
-                <img src={Logo} alt= 'website logo'/>
+                <img className={classes.logo} src={Logo} alt= 'website logo'/>
               </Paper>
             </Grid>
-            <PitchChart ></PitchChart>
-              {/* <CarouselCall></CarouselCall> */}
-            {/* <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid> */}
+            <PitchChart></PitchChart>
           </Grid>
         </Container>
         <Copyright />
