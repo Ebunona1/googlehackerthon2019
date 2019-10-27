@@ -181,6 +181,9 @@ export default function Dashboard() {
                 <Orders />
                 <img className={classes.logo} src={Logo} alt= 'website logo'/>
               </Paper>
+              <Paper className= {classes.paper}>
+                <p>hello</p>
+              </Paper>
             </Grid>
             <PitchChart></PitchChart>
           </Grid>
