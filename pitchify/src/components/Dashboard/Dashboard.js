@@ -75,10 +75,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    alignSelf: 'center',
   },
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
+    align: 'center',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -105,6 +107,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    align: 'center',
   },
   paper: {
     padding: theme.spacing(2),
@@ -119,8 +122,8 @@ const useStyles = makeStyles(theme => ({
     width: '80vh',
     height: '400',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignSelf: 'center',
   }
 }));
 
@@ -149,8 +152,8 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Pitchify
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} alignItems="center">
+            Pitchify: An online vocal trainer to better your pitch
           </Typography>
           <IconButton color="inherit">
           </IconButton>
@@ -177,12 +180,9 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container>
           <Grid item xs={12}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} justifycontent='center'>
                 <Orders />
-                <img className={classes.logo} src={Logo} alt= 'website logo'/>
-              </Paper>
-              <Paper className= {classes.paper}>
-                <p>hello</p>
+                <img className={classes.logo} src={Logo} alt= 'website logo' justifycontent='center'/>
               </Paper>
             </Grid>
             <PitchChart></PitchChart>
