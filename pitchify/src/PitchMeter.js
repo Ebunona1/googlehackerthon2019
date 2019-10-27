@@ -1,7 +1,7 @@
 import AudioContextApi from './AudioContextApi';
 import freqTable from './notes';
 var PitchMeter = (() => {
-    const FREQ_MATCHING_THRESHOLD = 5;
+    const FREQ_MATCHING_THRESHOLD = 10;
     var detectPitch = function (analyserAudioNode) {
       var buffer = new Uint8Array(analyserAudioNode.fftSize);
       // See initializations in the AudioContent and AnalyserNode sections of the demo.
@@ -76,6 +76,7 @@ var PitchMeter = (() => {
             if (withinPercent(targetFreq, freq, FREQ_MATCHING_THRESHOLD)) {
               onPitchMatched();
               console.log(findClosestNote(freq, notesTable));
+              console.log(freq);
             } else if (freq > targetFreq) {
               onPitchTooHigh();
             } else {

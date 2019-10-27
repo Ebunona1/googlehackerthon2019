@@ -2,6 +2,7 @@ import React from 'react';
 import Title from '../Dashboard/Title';
 import AudioPlayer from '../../AudioPlayer';
 import PitchMeter from '../../PitchMeter';
+import NotesTable from '../../notes';
 import Button from "@material-ui/core/Button";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -32,17 +33,24 @@ const useStyles = makeStyles(theme => ({
 export default function PitchChart() {
   const classes = useStyles();
   var playing = false;
+  var generateFrequency = function () {
+    var currentFrequency = Math.floor(Math.random() * (1027 - 513 + 1) + 513);
+    return currentFrequency;
+  }
+  var currentNote = PitchMeter.findNotes(generateFrequency(), NotesTable[440])
+  console.log('note:', currentNote.note);
 
   var togglePlay = function (frequency) {
     if (!playing) {
       AudioPlayer.setFrequency(frequency);
       AudioPlayer.playNote();
       playing = true;
-    } else if (AudioPlayer.getFrequency() !== frequency) {
-      AudioPlayer.stopPlaying();
-      AudioPlayer.setFrequency(frequency);
-      AudioPlayer.playNote();
-      playing = true;
+    // } else if (AudioPlayer.getFrequency() !== frequency) {
+    //   AudioPlayer.stopPlaying();
+    //   AudioPlayer.setFrequency(frequency);
+    //   AudioPlayer.playNote();
+    //   playing = true;
+    // } 
     } else {
       AudioPlayer.stopPlaying();
       playing = false;
@@ -50,7 +58,9 @@ export default function PitchChart() {
   }
 
   var record = async function () {
-    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => onTooLow(), () => onTooHigh(), () => { console.log("timeout"); return; });
+    generateFrequency();
+    console.log("generated=", currentNote.note);
+    PitchMeter.matchPitch(currentNote.frequency, 1000, () => onMatched(), () => onTooLow(), () => onTooHigh(), () => { console.log("timeout"); return; });
   }
 
   var onMatched = function () {
@@ -72,6 +82,7 @@ export default function PitchChart() {
 
   return (
     <React.Fragment>
+      {}
       <Grid item xs={12} md={4} lg={3}>
         <Paper className={classes.root}>
           <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
@@ -80,8 +91,8 @@ export default function PitchChart() {
           <Button variant="contained" color="primary" onClick={(f) => togglePlay(600)}>
             Play an E3
       </Button>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(700)}>
-            Play a C4
+          <Button variant="contained" color="primary" onClick={(f) => togglePlay(currentNote.frequency)}>
+            Listen first!
       </Button>
           <Button onClick={record}>
             Record
@@ -90,7 +101,7 @@ export default function PitchChart() {
       </Grid>
       <Grid item xs={12} md={8} lg={9}>
         <Paper className={classes.root}>
-          <p>dfd</p>
+          <p>{currentNote.note}</p>
         </Paper>
       </Grid>
 
