@@ -40,7 +40,7 @@ export default function PitchChart() {
   }
   var currentNote = PitchMeter.findNotes(generateFrequency(), NotesTable[440])
   //console.log('note:', currentNote.note);
-  const [correctionText, setCorrectionText] = useState(0);
+  const [correctionText, setCorrectionText] = useState('');
 
   var togglePlay = function (frequency) {
     AudioPlayer.setFrequency(frequency);
