@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 100,
+    height: 125
   },
 }));
 
@@ -39,20 +39,9 @@ export default function PitchChart() {
   const [correctionText, setCorrectionText] = useState(0);
 
   var togglePlay = function (frequency) {
-    if (!playing) {
-      AudioPlayer.setFrequency(frequency);
-      AudioPlayer.playNote();
-      playing = true;
-      // } else if (AudioPlayer.getFrequency() !== frequency) {
-      //   AudioPlayer.stopPlaying();
-      //   AudioPlayer.setFrequency(frequency);
-      //   AudioPlayer.playNote();
-      //   playing = true;
-      // } 
-    } else {
-      AudioPlayer.stopPlaying();
-      playing = false;
-    }
+    AudioPlayer.setFrequency(frequency);
+    AudioPlayer.playNote(0);
+    setTimeout(() => AudioPlayer.stopPlaying(3000), 3000);
   }
 
   var record = async function () {
