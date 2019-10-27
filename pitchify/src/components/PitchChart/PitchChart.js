@@ -10,47 +10,43 @@ import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles(theme => ({
-//   paper: {
-//     padding: theme.spacing(2),
-//     display: 'flex',
-//     overflow: 'auto',
-//     flexDirection: 'column',
-//   },
-//   fixedHeight: {
-//     height: 240,
-//   },
-// }));
-
-// const classes = useStyles();
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 100,
   },
 }));
 
 export default function PitchChart() {
   const classes = useStyles();
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight, classes.root);
   var playing = false;
   var generateFrequency = function () {
     var currentFrequency = Math.floor(Math.random() * (1027 - 513 + 1) + 513);
     return currentFrequency;
   }
   var currentNote = PitchMeter.findNotes(generateFrequency(), NotesTable[440])
-  console.log('note:', currentNote.note);
+  //console.log('note:', currentNote.note);
 
   var togglePlay = function (frequency) {
     if (!playing) {
       AudioPlayer.setFrequency(frequency);
       AudioPlayer.playNote();
       playing = true;
-    // } else if (AudioPlayer.getFrequency() !== frequency) {
-    //   AudioPlayer.stopPlaying();
-    //   AudioPlayer.setFrequency(frequency);
-    //   AudioPlayer.playNote();
-    //   playing = true;
-    // } 
+      // } else if (AudioPlayer.getFrequency() !== frequency) {
+      //   AudioPlayer.stopPlaying();
+      //   AudioPlayer.setFrequency(frequency);
+      //   AudioPlayer.playNote();
+      //   playing = true;
+      // } 
     } else {
       AudioPlayer.stopPlaying();
       playing = false;
@@ -59,7 +55,7 @@ export default function PitchChart() {
 
   var record = async function () {
     generateFrequency();
-    console.log("generated=", currentNote.note);
+    //console.log("generated=", currentNote.note);
     PitchMeter.matchPitch(currentNote.frequency, 1000, () => onMatched(), () => onTooLow(), () => onTooHigh(), () => { console.log("timeout"); return; });
   }
 
@@ -83,24 +79,18 @@ export default function PitchChart() {
   return (
     <React.Fragment>
       {}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper className={classes.root}>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
-            Play an A4
-      </Button>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(600)}>
-            Play an E3
-      </Button>
+      <Grid item xs={6} md={6} lg={6}>
+        <Paper className={fixedHeightPaper}>
           <Button variant="contained" color="primary" onClick={(f) => togglePlay(currentNote.frequency)}>
             Listen first!
-      </Button>
+          </Button>
           <Button onClick={record}>
             Record
-      </Button>
+          </Button>
         </Paper>
       </Grid>
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper className={classes.root}>
+      <Grid item xs={6} md={6} lg={6}>
+        <Paper className={fixedHeightPaper}>
           <p>{currentNote.note}</p>
         </Paper>
       </Grid>

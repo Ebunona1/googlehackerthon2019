@@ -34,11 +34,7 @@ export default function Orders() {
   return (
     <React.Fragment>
       <Title>Pitch perfect</Title>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="javascript:;">
-          See more orders
-        </Link>
-      </div>
+      
     </React.Fragment>
   );
 }

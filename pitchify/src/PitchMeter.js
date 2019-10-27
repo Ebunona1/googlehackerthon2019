@@ -55,7 +55,7 @@ var PitchMeter = (() => {
     var withinPercent = (target, actual, threshold) => {
       var diff = target - actual;
       var percent = (diff/target) * 100;
-      console.log("percent",actual);
+      console.log("Your Frequency",actual);
       return Math.abs(percent) <= threshold;
     }
     var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onPitchTooLow, onPitchTooHigh, onTimeout) => {
