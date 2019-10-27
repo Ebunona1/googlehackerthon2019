@@ -27,7 +27,7 @@ var PitchMeter = (() => {
     // See initializations in the AudioContent and AnalyserNode sections of the demo.
     analyserAudioNode.getByteTimeDomainData(buffer);
     var fundalmentalFreq = findFundamentalFreq(buffer, AudioContextApi.getAudioContext().sampleRate);
-    console.log(fundalmentalFreq);
+    return fundalmentalFreq;
   };
 
   var findFundamentalFreq = function (buffer, sampleRate) {
@@ -75,7 +75,8 @@ var PitchMeter = (() => {
   var withinPercent = (target, actual, threshold) => {
     var diff = target - actual;
     var percent = (diff/target) * 100;
-    return Math.abs(percent) < threshold;
+    console.log("percent",actual);
+    return Math.abs(percent) <= threshold;
   }
   var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onTimeout) => {
     let stream = await navigator.mediaDevices.getUserMedia({audio: true}).then((micStream) => {
@@ -91,8 +92,9 @@ var PitchMeter = (() => {
         for (var samples = 0; samples < maxSamples; samples ++) {
           var freq = detectPitch(analyserAudioNode);
           // break when freq matches expected
-          if (withinPercent(targetFreq, freq, FREQ_MATCHING_THRESHOLD))
+          if (withinPercent(targetFreq, freq, FREQ_MATCHING_THRESHOLD)) {
             onPitchMatched();
+          }
           
         }
         onTimeout();
@@ -159,13 +161,18 @@ function App() {
 
 
   var record = async function () {
-    PitchMeter.matchPitch(262., 1000, () => console.log("Matched"), () => console.log("Timeout"));
+    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => {console.log("timeout"); return;});
   }
 
- 
+  var onMatched = function () {
+    console.log("Matched");
+    return {backgroundColor: 'green'};
+  }
+
+  var isBackgroundRed = false;
 
   return (
-    <div>
+    <div className={isBackgroundRed ? 'background-red' : 'background-blue'}>
       <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
         Play an A4
       </Button>
