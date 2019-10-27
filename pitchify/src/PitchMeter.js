@@ -58,7 +58,7 @@ var PitchMeter = (() => {
       console.log("percent",actual);
       return Math.abs(percent) <= threshold;
     }
-    var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onTimeout) => {
+    var matchPitch = async (targetFreq, maxSamples,onPitchMatched, onPitchTooLow, onPitchTooHigh, onTimeout) => {
       var notesTable = freqTable[440];
       let stream = await navigator.mediaDevices.getUserMedia({audio: true}).then((micStream) => {
         var analyserAudioNode = AudioContextApi.getAudioContext().createAnalyser();
@@ -76,6 +76,10 @@ var PitchMeter = (() => {
             if (withinPercent(targetFreq, freq, FREQ_MATCHING_THRESHOLD)) {
               onPitchMatched();
               console.log(findClosestNote(freq, notesTable));
+            } else if (freq > targetFreq) {
+              onPitchTooHigh();
+            } else {
+              onPitchTooLow();
             }
             
           }
@@ -104,7 +108,7 @@ var PitchMeter = (() => {
       return notes[low];
     }
     return {
-      // maxPitch(targetFreq, maxSamples,onPitchMatched, onTimeout)
+      // maxPitch(targetFreq, maxSamples,onPitchMatched, onPitchTooLow, onPitchTooHigh, onTimeout)
       matchPitch: matchPitch,
       findNotes: findClosestNote
     };
