@@ -1,47 +1,61 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from '../Dashboard/Title';
+import AudioPlayer from '../../AudioPlayer';
+import PitchMeter from '../../PitchMeter';
+import Button from "@material-ui/core/Button";
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
 
 export default function PitchChart() {
+
+  var playing = false;
+
+  var togglePlay = function (frequency) {
+    if (!playing) {
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
+      playing = true;
+    } else if (AudioPlayer.getFrequency() !== frequency) {
+      AudioPlayer.stopPlaying();
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
+      playing = true;
+    } else {
+      AudioPlayer.stopPlaying();
+      playing = false;
+    }
+  }
+
+  var record = async function () {
+    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => { console.log("timeout"); return; });
+  }
+
+  var onMatched = function () {
+    console.log("Matched");
+    return { backgroundColor: 'green' };
+  }
+
+  var isBackgroundRed = false;
+
   return (
     <React.Fragment>
       <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey="time" />
-          <YAxis>
-            <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line type="monotone" dataKey="amount" stroke="#556CD6" dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className={isBackgroundRed ? 'background-red' : 'background-blue'}>
+        <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
+          Play an A4
+      </Button>
+
+        <Button variant="contained" color="primary" onClick={(f) => togglePlay(600)}>
+          Play an E3
+      </Button>
+
+        <Button variant="contained" color="primary" onClick={(f) => togglePlay(700)}>
+          Play a C4
+      </Button>
+
+        <Button onClick={record}>
+          Record
+      </Button>
+      </div>
     </React.Fragment>
   );
 }
