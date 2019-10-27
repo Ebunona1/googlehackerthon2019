@@ -77,6 +77,7 @@ var PitchMeter = (() => {
               onPitchMatched();
               console.log(findClosestNote(freq, notesTable));
               console.log(freq);
+              return;
             } else if (freq > targetFreq) {
               onPitchTooHigh();
             } else {

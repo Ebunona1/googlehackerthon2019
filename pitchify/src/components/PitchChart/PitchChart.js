@@ -51,8 +51,8 @@ export default function PitchChart() {
   }
 
   var onMatched = function () {
-    console.log("Matched");
-    return { backgroundColor: 'green' };
+    setCorrectionText("Matched!");
+    console.log("matched");
   }
 
   var onTooLow = function () {
