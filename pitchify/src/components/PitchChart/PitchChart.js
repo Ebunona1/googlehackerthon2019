@@ -24,6 +24,10 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 125
   },
+  listenButton: {
+  background: 'black',
+  color: 'white',
+  }
 }));
 
 export default function PitchChart() {
@@ -72,7 +76,7 @@ export default function PitchChart() {
       {}
       <Grid item xs={6} md={6} lg={6}>
         <Paper className={fixedHeightPaper}>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(currentNote.frequency)}>
+          <Button variant="contained" className={classes.listenButton} onClick={(f) => togglePlay(currentNote.frequency)}>
             Listen first!
           </Button>
           <Button onClick={record}>

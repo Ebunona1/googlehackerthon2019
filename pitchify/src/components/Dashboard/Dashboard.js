@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    background: 'black',
   },
   toolbarIcon: {
     display: 'flex',
@@ -51,12 +52,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+    background: 'black',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
+      background: 'black',
     }),
   },
   appBarShift: {
@@ -65,6 +68,7 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
+      background: 'black',
     }),
   },
   menuButton: {
@@ -76,6 +80,9 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
     alignSelf: 'center',
+    background: 'black',
+    color: 'white',
+    width: '100%', 
   },
   drawerPaper: {
     position: 'relative',
@@ -120,7 +127,7 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     width: '80vh',
-    height: '400',
+    height: '450',
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -145,21 +152,21 @@ export default function Dashboard() {
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
-            color="inherit"
+            color="black"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} alignItems="center">
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title} alignSelf='center'>
             Pitchify: An online vocal trainer to better your pitch
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="black">
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -174,9 +181,9 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      </Drawer>
+      </Drawer> */}
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        <div className={classes.appBarSpacer}/>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container>
           <Grid item xs={12}>
