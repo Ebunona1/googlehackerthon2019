@@ -9,81 +9,79 @@ import Link from '@material-ui/core/Link';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles(theme => ({
-//   paper: {
-//     padding: theme.spacing(2),
-//     display: 'flex',
-//     overflow: 'auto',
-//     flexDirection: 'column',
-//   },
-//   fixedHeight: {
-//     height: 240,
-//   },
-// }));
+
 
 // const classes = useStyles();
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(3, 2),
-  },
-}));
+export default class PitchChart extends React.Component {
+  constructor() {
+    super();
 
-export default function PitchChart() {
-  const classes = useStyles();
-  var playing = false;
-
-  var togglePlay = function (frequency) {
-    if (!playing) {
-      AudioPlayer.setFrequency(frequency);
-      AudioPlayer.playNote();
-      playing = true;
-    } else if (AudioPlayer.getFrequency() !== frequency) {
-      AudioPlayer.stopPlaying();
-      AudioPlayer.setFrequency(frequency);
-      AudioPlayer.playNote();
-      playing = true;
-    } else {
-      AudioPlayer.stopPlaying();
-      playing = false;
+    this.state = {
+      frequency: 0,
+      playValue: 500,
+      playing: false,
+      isBackgroundRed: false,
+      }
     }
+  
+  useStyles = (makeStyles) => (theme => ({
+      root: {
+        padding: theme.spacing(3, 2), 
+      }
+    }));
+
+  record = async () => {
+    PitchMeter.matchPitch(200., 1000, () => this.onMatched(), () => { console.log("timeout"); return; });
   }
 
-  var record = async function () {
-    PitchMeter.matchPitch(200., 1000, () => onMatched(), () => { console.log("timeout"); return; });
-  }
-
-  var onMatched = function () {
+  onMatched = () => {
     console.log("Matched");
     return { backgroundColor: 'green' };
   }
 
-  var isBackgroundRed = false;
+  togglePlay = (frequency) => {
+    if (!this.state.playing) {
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
+      this.setState({playing: true})
+    } else if (AudioPlayer.getFrequency() !== frequency) {
+      AudioPlayer.stopPlaying();
+      AudioPlayer.setFrequency(frequency);
+      AudioPlayer.playNote();
+      this.setState({playing: true})
+    } else {
+      AudioPlayer.stopPlaying();
+      this.setState({playing: true})
+    }
+  }
 
-  return (
-    <React.Fragment>
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper className={classes.root}>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(500)}>
-            Play an A4
-      </Button>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(600)}>
-            Play an E3
-      </Button>
-          <Button variant="contained" color="primary" onClick={(f) => togglePlay(700)}>
-            Play a C4
-      </Button>
-          <Button onClick={record}>
-            Record
-      </Button>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper className={classes.root}>
-          <p>dfd</p>
-        </Paper>
-      </Grid>
 
-    </React.Fragment >
-  );
+  render() {
+    return (
+      <React.Fragment>
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper className={this.useStyles().root}>
+            <Button variant="contained" color="primary" onClick={() => this.setState({playValue: 500})}>
+              Play an A4
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => this.setState({playValue: 700})}>
+              Play an E3
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => this.setState({playValue: 900})}>
+              Play a C4
+            </Button>
+            <Button onClick={this.handleRecord}>
+              Record
+            </Button>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper className={this.useStyles().root}>
+            <p>{this.state.frequency}</p>
+          </Paper>
+        </Grid>
+      </React.Fragment>
+    )
+  }
 }
